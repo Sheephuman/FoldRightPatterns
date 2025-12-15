@@ -35,14 +35,14 @@ namespace RightFoldPatterns.Stratesy
 
 
 
-        public ILogLine Process(ILogLine line)
+        public ILogLine LogProcess(ILogLine line)
         {
             ILogLine current = line;
 
             if(_pipeline is null)
                 throw new InvalidOperationException("Pipeline is not set.");
             foreach (var processor in _pipeline)
-                current = processor.Process(current);
+                current = processor.LogProcess(current);
             return current;
         }
     }

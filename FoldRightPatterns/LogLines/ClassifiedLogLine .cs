@@ -11,7 +11,6 @@ namespace RightFoldPatterns.LogLines
         public LogSeverity Severity { get; set; }
         public SpeedCategory SpeedCategory { get; set; }
 
-        public int speed { get; }
         SpeedCategory ILogLine.SpeedCategory { get => SpeedCategory; set => throw new NotImplementedException(); }
 
         public ClassifiedLogLine(string line)

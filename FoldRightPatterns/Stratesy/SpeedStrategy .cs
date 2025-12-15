@@ -38,11 +38,11 @@ namespace RightFoldPatterns.Stratesy
             return int.TryParse(f[5], out var s) ? s : 0;
         }
 
-        public ILogLine Process(ILogLine line)
+        public ILogLine LogProcess(ILogLine line)
         {
             ILogLine current = line;
             foreach (var processor in _pipeline)
-                current = processor.Process(current);
+                current = processor.LogProcess(current);
             return current;
         }
     }

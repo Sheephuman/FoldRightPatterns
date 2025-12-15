@@ -26,7 +26,7 @@ namespace RightFoldPatterns.Stratesy
         /// </summary>
         /// <param name="line">入力ログ</param>
         /// <returns>変換後のログ</returns>
-        public ILogLine Process(ILogLine line)
+        public ILogLine LogProcess(ILogLine line)
         {
             ILogLine current = line;
 
@@ -35,7 +35,7 @@ namespace RightFoldPatterns.Stratesy
                 if (processor == null)
                     continue;
 
-                current = processor.Process(current) ?? current;
+                current = processor.LogProcess(current) ?? current;
             }
 
             return current;

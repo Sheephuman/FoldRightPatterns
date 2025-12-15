@@ -1,7 +1,4 @@
 ﻿using RightFoldPattens.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RightFoldPatterns.InterfaceDomain
 {
@@ -10,6 +7,6 @@ namespace RightFoldPatterns.InterfaceDomain
         /// <summary>
         /// 入力を受け取り、必要なら変更して返す
         /// </summary>
-        ILogLine Process(ILogLine line);
+        ILogLine LogProcess(ILogLine line);
     }
 }

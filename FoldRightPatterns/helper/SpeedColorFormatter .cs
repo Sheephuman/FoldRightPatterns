@@ -21,11 +21,11 @@ namespace RightFoldPatterns.helper
             }
 
 
-        public ILogLine Process(ILogLine line)
+        public ILogLine LogProcess(ILogLine line)
         {
             ILogLine current = line;
             foreach (var processor in _pipeline)
-                current = processor.Process(current);
+                current = processor.LogProcess(current);
             return current;
         }
     }

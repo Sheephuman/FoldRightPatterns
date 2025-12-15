@@ -37,49 +37,25 @@ namespace RightFoldPatterns.Implements
         /// 最初に条件に一致した行だけ処理して終了
         /// 右畳み込み風遅延評価
         /// </summary>
-          // EvaluateFirst を右畳み込み＋遅延評価で作り直し
-    public bool EvaluateFirst(Func<string, bool> condition, Action<string> onMatch)
-    {
-        if (_enumerator is null) return false;
-
-        while (_enumerator.MoveNext())
+        // EvaluateFirst を右畳み込み＋遅延評価で作り直し
+        public bool EvaluateFirst(Func<string, bool> condition, Action<string> onMatch)
         {
-            var line = _enumerator.Current;
-            if (condition(line))
-            {
-                onMatch(line);
-                return true;
-            }
-        }
+            if (_enumerator is null) return false;
 
-        return false; // 条件に合う行なし
-    }
-
-        /// <summary>
-        /// 次のマッチ行を返す（EvaluateNext風）
-        /// </summary>
-        public ILogLine? EvaluateNext()
-        {
             while (_enumerator.MoveNext())
             {
                 var line = _enumerator.Current;
-
-                foreach (var s in _strategies)
+                if (condition(line))
                 {
-                    bool ok;
-                    try { ok = s.Condition(line); }
-                    catch { ok = false; }
-
-                    if (ok)
-                    {
-                        try { return s.Factory(line); }
-                        catch { return new SimpleLogLine(line, LogSeverity.Normal); }
-                    }
+                    onMatch(line);
+                    return true;
                 }
             }
 
-            return null;
+            return false; // 条件に合う行なし
         }
+
+
 
         /// <summary>
         /// 再構築版：スタックを一切使わない右畳み込み（完全非再帰）
@@ -127,39 +103,7 @@ namespace RightFoldPatterns.Implements
             yield return head;
         }
 
-        /// <summary>
-        /// foldr 構造を維持するための "Cons" 的構成子
-        /// </summary>
-        private static IEnumerable<T> Prepend<T>(T head, IEnumerable<T> tail)
-        {
-            yield return head;
-            foreach (var x in tail)
-                yield return x;
-        }
 
 
-
-
-        /// <summary>
-        /// EvaluateAllRightをAction形式で遅延評価する版
-        /// </summary>
-        public void EvaluateAll(Action<string> onMatch, Func<string, bool>? condition = null)
-        {
-            condition ??= (_ => true);
-
-            var lines = _lines.ToList();
-            void FoldRightRecursive(int index)
-            {
-                if (index < 0) return;
-
-                var line = lines[index];
-                if (condition(line))
-                    onMatch(line);
-
-                FoldRightRecursive(index - 1);
-            }
-
-            FoldRightRecursive(lines.Count - 1);
-        }
     }
 }

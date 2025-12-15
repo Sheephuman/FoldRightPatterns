@@ -61,7 +61,7 @@ namespace RightFoldPattens.Logging
             if(_pipeline is null)
                 throw new InvalidOperationException("Pipeline is not set.");
             foreach (var processor in _pipeline)
-                current = processor.Process(current);
+                current = processor.LogProcess(current);
             return current;
         }
     }

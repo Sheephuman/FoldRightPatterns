@@ -184,12 +184,14 @@ namespace RightFoldPattens.ViewModels
 
             await Task.Run(() =>
             {
+
+                ///入力ストリームを左から消費し、意味付けは右側で確定する
                 foreach (var log in _evaluator.EvaluateAllRight(condition, factory))
                 {
                     token.ThrowIfCancellationRequested();  // キャンセル判定
+                    ///外部から計算全体を切断する。
 
-
-                    var processed = _viewstrategy.Process(log) as CsvLogLine;
+                    var processed = _viewstrategy.LogProcess(log) as CsvLogLine;
                     if (processed is null)
                         continue;
 
@@ -250,15 +252,15 @@ namespace RightFoldPattens.ViewModels
 
                 // Series と PlotModel を準備
                 var series = new LineSeries { Title = "Speed" };
-              var _plotModel = new PlotModel { Title = "Speed Chart" };
-                _plotModel.Series.Add(series);
-                _plotModel.Axes.Add(new DateTimeAxis
+              var plotModel = new PlotModel { Title = "Speed Chart" };
+                plotModel.Series.Add(series);
+                plotModel.Axes.Add(new DateTimeAxis
                 {
                     Position = AxisPosition.Bottom,
                     StringFormat = "HH:mm:ss",
                     Title = "Time"
                 });
-                _plotModel.Axes.Add(new LinearAxis
+                plotModel.Axes.Add(new LinearAxis
                 {
                     Position = AxisPosition.Left,
                     Title = "Speed"
@@ -267,7 +269,7 @@ namespace RightFoldPattens.ViewModels
 
                 Func<string, CsvLogLine> factory = line => new CsvLogLine(line);
 
-                _plotModel = await ExecuteStreamingWithPlotModel(
+                plotModel = await ExecuteStreamingWithPlotModel(
             line =>
             {
                 var f = line.Split(',');
@@ -281,12 +283,12 @@ namespace RightFoldPattens.ViewModels
                 series.Points.Add(new DataPoint(
                 DateTimeAxis.ToDouble(logLine.Timestamp),
                 logLine.Speed));
-                _plotModel.InvalidatePlot(false); // 描画更新
+                plotModel.InvalidatePlot(false); // 描画更新
 
             }, token);
 
             
-                _PlotModel = _plotModel;
+                _PlotModel = plotModel;
 
 
 
