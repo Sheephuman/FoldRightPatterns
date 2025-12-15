@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="FoldRightConsole/FoldRightConsole.csproj" />
+  <Project Path="FoldRightPatterns/RightFoldPatterns.csproj" />
+</Solution>

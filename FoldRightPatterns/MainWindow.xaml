@@ -1,0 +1,61 @@
+﻿<Window x:Class="RightFoldPattens.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RightFoldPatterns"
+        mc:Ignorable="d"
+        xmlns:lo="clr-namespace:RightFoldPattens.Logging"
+        Title="MainWindow" Height="450" Width="800">
+
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical" Grid.Row="1">
+            <!-- 上部ボタン群を2列表示 -->
+            <Grid Margin="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- 左列のボタン -->
+                <StackPanel Grid.Column="0" Orientation="Vertical">
+                    <Button Content="1 行だけ読みこんで追加する" Command="{Binding LoadNextCommand}" Margin="0,0,0,4"
+                    FontSize="20"/>
+                    <Button Content="5行目のある数値以上を全部読む" Command="{Binding LoadAllCommand}" Margin="0,0,0,4"
+                    FontSize="20"/>
+                    <Button Content="40以上５０以下で出力 + Chart表示" Command="{Binding ComplexibleConditionCommand}" Margin="0,0,0,4"
+                    FontSize="20"/>
+                </StackPanel>
+
+                <!-- 右列のボタン -->
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <Button Content="ファイル選択" Command="{Binding FileSelectorCommand}" Margin="0,0,0,4"
+                    FontSize="20"/>
+                    <TextBox x:Name="fileSelectorBox" Text="{Binding DisplayText}" Width="260" Height="20"
+                    FontSize="20"/>
+                    <Button x:Name="ClearButton" 
+                    Content="クリア" Margin="0,4,0,0"
+Click="ClearButton_Click" Width="250" Height="25" FontSize="20"/>
+
+                   
+                </StackPanel>
+
+            </Grid>
+            <RichTextBox   VirtualizingStackPanel.IsVirtualizing="True"
+            Background="AliceBlue" 
+            Height="300"
+         HorizontalScrollBarVisibility="Auto"
+            x:Name="LogBox"
+             IsReadOnly="True"
+             VerticalScrollBarVisibility="Auto"
+             />
+        </StackPanel>
+    </Grid>
+</Window>
